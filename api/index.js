@@ -28,4 +28,88 @@ app.listen(port, () => {
     console.log("Server running on port: ", port)
 })
 
+const User = require("./models/user")
+const Order = require("./models/order")
 
+// FUNCTION for sending the verification email to new user
+const sendVerificationEmail = async (email, verificationToken) => {
+
+    // create a nodemailer transport
+    const transporter = nodemailer.createTransport({
+        // conf the email service
+        service: "gmail",
+        auth: {
+            user: process.env.EMIL_GMAIL_USERNAME,
+            password: process.env.GMAIL_SOVELLUSSALASANAT_PASSWORD,
+        }
+    })
+
+    // compose the email msg
+    const mailOptions = {
+        from: "amazon.com",
+        to: email,
+        subject: "Email Verification",
+        text: `Please click the following link to verify your email: http://localhost:8000/verify/${verificationToken}`
+    }
+
+    // send the verification email
+    try {
+        await transporter.sendMail(mailOptions)
+    } catch (error) {
+        console.log("Error sending the verification email: ", error)
+    }
+}
+
+// end point for Register
+app.post("/register", async(req, res) => {
+    try {
+        const {name, email, password} = req.body
+
+        // check if email already taken
+        const existingUser = await User.findOne({email})
+
+        if (existingUser) {
+            return res.status(400).json({message: "Email already registered"})
+        }
+
+        // create the new user
+        const newUser = new User({name, email, password})
+
+        // generate and store the verification token
+        newUser.verificationToken = crypto.randomBytes(20).toString("hex")
+
+        // save the user to the db
+        await newUser.save()
+
+        // send verification email to the user
+        sendVerificationEmail(newUser.email, newUser, verificationToken)
+
+    } catch (error) {
+        console.log("error registering user", error)
+        res.status(500).json({message: "Registration failed"})
+    }
+})
+
+// end point for Verifying the Email
+app.get("/verify/:token", async(req, res) => {
+    try {
+        const token = req.params.token;
+
+        // find the user with given token
+        const user = await User.findOne({verificationToken: token})
+        if (!user) {
+            return res.status(404).json({message: "Invalid verification token"})
+        }
+
+        // mark the user as verified
+        user.verified = true
+        user.verificationToken = undefined
+
+        await user.save()
+
+        res.status(200).json({message: "Email verified succesfully"})
+
+    } catch (error) {
+        res.status(500).json({message: "Email Verification failed"})
+    }
+})
