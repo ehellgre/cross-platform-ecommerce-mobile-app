@@ -1,13 +1,39 @@
-import { StyleSheet, Text, View, SafeAreaView, Pressable, Image, KeyboardAvoidingView, TextInput,  } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Pressable, Image, KeyboardAvoidingView, TextInput, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { MaterialIcons, AntDesign, Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import { IP_ADDRESS } from '@env'
+import axios from 'axios'
+
 
 const RegisterScreen = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [name, setName] = useState("")
     const navigation = useNavigation()
+
+    const handleRegister = () => {
+
+        const user = {
+            name: name,
+            email: email,
+            password: password
+        }
+
+        // send POST req to backend /register
+        axios.post(`${IP_ADDRESS}:8000/register`, user)
+        .then((response) => {
+            console.log(response)
+            Alert.alert("Registration succesful!", "You have registered succesfully.") // 1st argument = title, 2nd body part
+            setName("")
+            setPassword("")
+            setEmail("")
+        }).catch((error) => {
+            Alert.alert("Registration error", "An error occurred during registration")
+            console.log("Registration failed", error)
+        })
+
+    }
 
 
   return (
@@ -62,7 +88,7 @@ const RegisterScreen = () => {
             <View style={{marginTop:80}} />
 
             {/* REGISTER BUTTON */}
-            <Pressable style={{ width:200, backgroundColor:"#FEBE10", borderRadius:6, marginLeft:"auto", marginRight:"auto", padding:15 }}>
+            <Pressable onPress={handleRegister} style={{ width:200, backgroundColor:"#FEBE10", borderRadius:6, marginLeft:"auto", marginRight:"auto", padding:15 }}>
                 <Text style={{ textAlign:"center", color:"white", fontSize:16, fontWeight:"bold" }}>Create account</Text>
             </Pressable>
 

@@ -40,7 +40,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
         service: "gmail",
         auth: {
             user: process.env.EMIL_GMAIL_USERNAME,
-            password: process.env.GMAIL_SOVELLUSSALASANAT_PASSWORD,
+            pass: process.env.GMAIL_SOVELLUSSALASANAT_PASSWORD,
         }
     })
 
@@ -49,7 +49,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
         from: "amazon.com",
         to: email,
         subject: "Email Verification",
-        text: `Please click the following link to verify your email: http://localhost:8000/verify/${verificationToken}`
+        text: `Please click the following link to verify your email: ${process.env.IP_ADDRESS}:8000/verify/${verificationToken}`
     }
 
     // send the verification email
@@ -57,6 +57,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
         await transporter.sendMail(mailOptions)
     } catch (error) {
         console.log("Error sending the verification email: ", error)
+        throw error;
     }
 }
 
@@ -80,9 +81,11 @@ app.post("/register", async(req, res) => {
 
         // save the user to the db
         await newUser.save()
+        res.status(201).json({message: "user registered succesfully"})
 
         // send verification email to the user
-        sendVerificationEmail(newUser.email, newUser, verificationToken)
+        await sendVerificationEmail(newUser.email, newUser.verificationToken)
+            .catch(error => console.log("Error sending the verification email: ", error))
 
     } catch (error) {
         console.log("error registering user", error)
