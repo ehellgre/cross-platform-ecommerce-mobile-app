@@ -10,11 +10,6 @@ Requirements:
 - You have installed the latest version of [Node.js and npm](https://nodejs.org/).
 - MongoDB
 
-MONGO_URI=mongodb+srv://emil:asd123@cluster0.96k6ac2.mongodb.net/
-EMIL_GMAIL_USERNAME=emil.hellgrenn@gmail.com
-GMAIL_SOVELLUSSALASANAT_PASSWORD=gumv wsxd uznz mvbj
-IP_ADDRESS
-
 ## Recommended
 
 Download Expo Go app for emulator
