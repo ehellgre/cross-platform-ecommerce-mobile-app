@@ -2,7 +2,7 @@
 
 AMAZON LOOK-A-LIKE
 
-Contains source-code for the full project. Based on YouTube tutorial created by Sujan Anand: https://www.youtube.com/watch?v=dfoZj7DPSAs
+Contains source-code for the full project.
 
 ## Prerequisites
 
