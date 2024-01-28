@@ -21,7 +21,7 @@ const RegisterScreen = () => {
         }
 
         // send POST req to backend /register
-        axios.post(`${IP_ADDRESS}:8000/register`, user)
+        axios.post(`${IP_ADDRESS}:8000/register`, user, { timeout: 60000 }) // 60 sec timeout
         .then((response) => {
             console.log(response)
             Alert.alert("Registration succesful!", "You have registered succesfully.") // 1st argument = title, 2nd body part

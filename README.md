@@ -2,8 +2,6 @@
 
 AMAZON LOOK-A-LIKE
 
-Contains source-code for the full project.
-
 ## Prerequisites
 
 Requirements:
