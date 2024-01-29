@@ -1,12 +1,35 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { MaterialIcons, AntDesign } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import axios from 'axios'
+import { IP_ADDRESS } from '@env'
 
 const LoginScreen = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigation = useNavigation()
+
+
+    // login func
+    const handleLogin = () => {
+        const user = {
+            email: email,
+            password: password
+        }
+
+        axios.post(`${IP_ADDRESS}:8000/login`, user, { timeout: 60000 })
+        .then((response) => {
+            console.log(response)
+            const token = response.data.token
+            AsyncStorage.setItem("auth", token)
+            navigation.replace("Main")
+        }).catch((error) => {
+            Alert.alert("Login Error", "Invalid Email or Password")
+            console.log(error)
+        })
+    }
 
 
   return (
@@ -52,7 +75,7 @@ const LoginScreen = () => {
             <View style={{marginTop:80}} />
 
             {/* LOGIN BUTTON */}
-            <Pressable style={{ width:200, backgroundColor:"#FEBE10", borderRadius:6, marginLeft:"auto", marginRight:"auto", padding:15 }}>
+            <Pressable onPress={handleLogin} style={{ width:200, backgroundColor:"#FEBE10", borderRadius:6, marginLeft:"auto", marginRight:"auto", padding:15 }}>
                 <Text style={{ textAlign:"center", color:"white", fontSize:16, fontWeight:"bold" }}>Login</Text>
             </Pressable>
 
