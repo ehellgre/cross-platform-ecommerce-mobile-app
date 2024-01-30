@@ -24,8 +24,10 @@ const LoginScreen = () => {
                 console.log("error", err)
             }
         }
+
+        checkLoginStatus();
     }, [])
-    checkLoginStatus();
+    
 
     // login func
     const handleLogin = () => {
