@@ -7,6 +7,7 @@ import ProductItem from '../components/ProductItem'
 import axios from 'axios'
 import DropDownPicker from "react-native-dropdown-picker"
 import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
 
 
 const HomeScreen = () => {
@@ -201,12 +202,14 @@ const HomeScreen = () => {
             }
         }
         fetchData()
-
       }, [])
 
       const onGenderOpen = useCallback(() => {
         setCompanyOpen(false);
       }, []);
+
+      const cart = useSelector((state) => state.cart.cart)
+      console.log(cart)
 
   return (
     <SafeAreaView style={{ paddingTop: Platform.OS === "android" ? 40 : 0, flex: 1, backgroundColor: "white" }}>
