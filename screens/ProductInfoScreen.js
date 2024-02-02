@@ -74,6 +74,13 @@ const ProductInfoScreen = () => {
 
         <Text style={{ color: "green", marginHorizontal: 10, fontWeight: "500" }}> IN Stock </Text>
 
+        <Pressable style={{ backgroundColor: "#FFC72C", padding: 10,borderRadius: 20, justifyContent: "center", alignItems: "center", marginHorizontal: 10, marginVertical: 10 }}>
+            <Text> Add to Cart </Text>
+        </Pressable>
+        <Pressable style={{ backgroundColor: "#FFAC1C", padding: 10,borderRadius: 20, justifyContent: "center", alignItems: "center", marginHorizontal: 10, marginVertical: 10 }}>
+            <Text> Buy now </Text>
+        </Pressable>
+
 
     </ScrollView>
     
