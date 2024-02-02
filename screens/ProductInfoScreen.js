@@ -34,9 +34,46 @@ const ProductInfoScreen = () => {
                         </View>
                     </View>
 
+                    <View style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: "#E0E0E0", justifyContent: "center", alignItems: "center", flexDirection: "row", marginTop: "auto", marginLeft: 20, marginBottom: 20 }}>
+                        <AntDesign name="hearto" size={24} color= "black" />
+                    </View>
                 </ImageBackground>
             ))}
         </ScrollView>
+
+        <View style={{ padding: 10 }}>
+            <Text style={{ fontSize: 15, fontWeight: "500" }}>{route?.params?.title}</Text>
+            <Text style={{ fontSize: 18, fontWeight: "600", marginTop: 6 }}>{route?.params?.price}€</Text>
+        </View>
+
+        <Text style={{ height: 1, borderColor: "#D0D0D0", borderWidth: 1 }} />
+
+        <View style={{ flexDirection: "row", alignItems: "center", padding: 10 }}>
+            <Text>Color: </Text>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>{route?.params?.color}</Text>
+        </View>
+
+        <View style={{ flexDirection: "row", alignItems: "center", padding: 10 }}>
+            <Text>Size: </Text>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>{route?.params?.size}</Text>
+        </View>
+
+        <Text style={{ height: 1, borderColor: "#D0D0D0", borderWidth: 1 }} />
+
+        <View style={{ padding: 10 }}>
+            <Text style={{ fontSize: 15, fontWeight: "bold", marginVertical: 5 }}>Total: {route.params.price} €</Text>
+            <Text style={{ color: "#00CED1" }}> FREE delivery </Text>
+
+            <View style={{ flexDirection: "row", marginVertical: 5, alignItems: "center", gap: 5 }}>
+                <Ionicons name="location" size={24} color="black" />
+
+                <Text style={{ fontSize: 15, fontWeight: "500" }}> Deliver To Finland
+                </Text>
+            </View>
+        </View>
+
+        <Text style={{ color: "green", marginHorizontal: 10, fontWeight: "500" }}> IN Stock </Text>
+
 
     </ScrollView>
     
