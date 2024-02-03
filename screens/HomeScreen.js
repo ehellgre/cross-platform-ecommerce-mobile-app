@@ -350,7 +350,11 @@ const HomeScreen = () => {
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {/* previously added addresses */}
 
-          <Pressable style={{ width: 140, height: 140, borderColor: "#D0D0D0", borderWidth: 1, padding: 10, justifyContent: "center", alignItems: "center", gap: 3, marginRight: 15, marginTop: 10 }}>
+          <Pressable onPress={() => {
+            setModalVisible(false) 
+            navigation.navigate("Address")
+            }} 
+            style={{ width: 140, height: 140, borderColor: "#D0D0D0", borderWidth: 1, padding: 10, justifyContent: "center", alignItems: "center", gap: 3, marginRight: 15, marginTop: 10 }}>
             <Text style={{textAlign: "center", color: "#0066b2", fontWeight:"500"}}>Add an address or pick-up location</Text>
           </Pressable>
         </ScrollView>
