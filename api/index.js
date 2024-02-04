@@ -149,3 +149,47 @@ app.post("/login", async (req, res) => {
         console.log("error login", error)
     }
 })
+
+// endpoint for storing new addresses
+app.post("/addresses", async (req, res) => {
+
+    try {
+        const { userId, address } = req.body
+
+        // find user by the userid
+        const user = await User.findById(userId)
+        if (!user) {
+            return res.status(404).json({message: "User not found"})
+        }
+
+        // add the new address to users addresses array
+        user.addresses.push(address)
+
+        // save
+        await user.save()
+
+        res.status(200).json({message: "Address created"})
+
+    } catch (error) {
+        res.status(500).json({message: "Error adding address"})
+    }
+})
+
+// endpoint to getting all addresses of an user
+app.get("/addresses/:userId", async (req, res) => {
+    try {
+        const userId = req.params.userId
+
+        const user = await User.findById(userId)
+
+        if (!user) {
+            return res.status(404).json({ message: "user not found" })
+        }
+
+        const addresses = user.addresses
+        res.status(200).json({addresses})
+
+    } catch (error) {
+        res.status(500).json({ message: "Error retrieving the addresses"})
+    }
+})
