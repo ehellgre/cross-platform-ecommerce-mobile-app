@@ -1,5 +1,13 @@
 import { StyleSheet, Text, View, ScrollView, Pressable, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { jwtDecode } from "jwt-decode";
+import jwt_decode from "jwt-decode"
+import { UserType } from '../UserContext';
+import { decode } from "base-64";
+
+global.atob = decode;
+
 
 const AddressScreen = () => {
     const [name, setName] = useState("");
@@ -8,6 +16,30 @@ const AddressScreen = () => {
     const [street, setStreet] = useState("");
     const [landmark, setLandmark] = useState("");
     const [postalCode, setPostalCode] = useState("");
+    const {userId, setUserId} = useContext(UserType)
+
+    useEffect(() => {
+        const fetchUser = async() => {
+            const token = await AsyncStorage.getItem("auth");
+            if (token) {
+                try {
+                    //const decodedToken = jwt_decode(token);
+                    //const userId = decodedToken.userId;
+                    //setUserId(userId);
+
+                    setUserId(jwtDecode(token).userId)
+                } catch (error) {
+                    // Handle decoding error, possibly due to invalid token
+                    console.error("Token decoding failed:", error);
+                }
+            }
+        };
+        fetchUser()
+    }, [])
+    
+    console.log(userId)
+
+    
 
 
   return (
