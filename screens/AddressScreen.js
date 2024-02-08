@@ -29,7 +29,7 @@ const AddressScreen = () => {
 
                     setUserId(jwtDecode(token).userId)
                 } catch (error) {
-                    // Handle decoding error, possibly due to invalid token
+                    // handle decoding error
                     console.error("Token decoding failed:", error);
                 }
             }
