@@ -7,10 +7,7 @@ AMAZON LOOK-A-LIKE
 Requirements:
 - You have installed the latest version of [Node.js and npm](https://nodejs.org/).
 - MongoDB
-
-## Recommended
-
-Download Expo Go app for emulator
+- Emulator for testing
 
 ## Setting Up the Project
 
