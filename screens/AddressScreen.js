@@ -5,11 +5,17 @@ import { jwtDecode } from "jwt-decode";
 import jwt_decode from "jwt-decode"
 import { UserType } from '../UserContext';
 import { decode } from "base-64";
+import axios from 'axios';
+import { IP_ADDRESS } from '@env'
+import { useNavigation } from '@react-navigation/native';
+import { Alert } from 'react-native'
 
 global.atob = decode;
 
 
 const AddressScreen = () => {
+    const navigation = useNavigation()
+
     const [name, setName] = useState("");
     const [mobileNo, setMobileNo] = useState("");
     const [houseNo, setHouseNo] = useState("");
@@ -38,6 +44,35 @@ const AddressScreen = () => {
     }, [])
     
     console.log(userId)
+    const handleAddAddress = () => {
+        const address = {
+            name,
+            mobileNo,
+            houseNo,
+            street,
+            landmark,
+            postalCode
+        }
+
+        axios.post(`${IP_ADDRESS}:8000/addresses`, {userId, address})
+        .then((response) => {
+            Alert.alert("Success", "Addresses added succesfully");
+            setName("");
+            setMobileNo;
+            setHouseNo
+            setStreet
+            setLandmark
+            setPostalCode
+
+            setTimeout(() => {
+                navigation.goBack()
+            },500)
+        }).catch ((error) => {
+            Alert.alert("Error", "Error adding addresses")
+            console.log("error", error)
+        })
+    }
+
 
     
 
@@ -153,7 +188,7 @@ const AddressScreen = () => {
                     placeholder="" />
                 </View>
 
-                <Pressable style={{ backgroundColor:"#FFC72C", padding: 19, borderRadius: 6, justifyContent: "center", alignItems: "center", marginTop: 20 }}>
+                <Pressable onPress={handleAddAddress} style={{ backgroundColor:"#FFC72C", padding: 19, borderRadius: 6, justifyContent: "center", alignItems: "center", marginTop: 20 }}>
                     <Text style={{fontWeight: "bold", }}>Add address</Text>
                 </Pressable>
 
